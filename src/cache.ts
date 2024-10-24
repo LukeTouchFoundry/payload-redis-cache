@@ -82,6 +82,9 @@ export const cachePlugin =
             includedPaths,
             apiBaseUrl: config?.routes?.api || '/api'
           })
+        ],
+        postMiddleware: [
+          ...(config?.express?.postMiddleware || [])
         ]
       }
     }

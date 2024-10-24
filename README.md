@@ -1,5 +1,8 @@
 # Payload Redis Cache Plugin
 
+This is a modified version of this plugin for Payload CMS ensures that CORS headers are maintained. 
+It also ensures that postMiddleware functions are also called. 
+
 This plugin for [Payload CMS](https://github.com/payloadcms/payload) adds a cache layer to API endpoints.
 The cache is based on the combination of the user's collection and the original URL.
 

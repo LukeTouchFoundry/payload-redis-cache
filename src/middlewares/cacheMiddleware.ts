@@ -14,6 +14,8 @@ export const cacheMiddleware =
       headers: { cookie, authorization = '' }
     } = req
 
+    const { config } = req.payload;
+
     // If the collection name cannot be detected or the method is not "GET" then call next()
     const useCache = canUseCache({
       apiBaseUrl,
@@ -37,6 +39,20 @@ export const cacheMiddleware =
       }
     }
 
+    if(config.cors) {
+      res.header('Access-Control-Allow-Methods', 'PUT, PATCH, POST, GET, DELETE, OPTIONS')
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization, Content-Encoding, x-apollo-tracing, x-api-key',
+      )
+
+      if (config.cors === '*') {
+        res.setHeader('Access-Control-Allow-Origin', '*')
+      } else if (Array.isArray(config.cors) && config.cors.indexOf(req.headers.origin) > -1) {
+        res.header('Access-Control-Allow-Credentials', 'true')
+        res.setHeader('Access-Control-Allow-Origin', req.headers.origin)
+      }
+    }
     // TODO find a better way
     const json = res.json
     res.json = (body) => {
